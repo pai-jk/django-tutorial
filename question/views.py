@@ -74,3 +74,8 @@ def question_delete(requset):
         return HttpResponse(200)
     else:
         return HttpResponse(400)
+
+
+def index(request):
+    context = {'question': 'test_question'}
+    return render(request, 'question/question.html', context=context)
