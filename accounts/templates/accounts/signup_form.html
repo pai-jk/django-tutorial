@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="post">
+    {% csrf_token %}
+    {% if not errors %}
+        {% for field in form %}
+            <p>
+                {{ field.name }} :
+                {{ field }}
+            </p>
+        {% endfor %}
+    {% else %}
+        errors!
+        {% for error, value in errors.items %}
+            {{ error }} {{ value }}
+        {% endfor %}
+    {% endif %}
+    <input type="submit" value="enroll">
+</form>
+</body>
+</html>
