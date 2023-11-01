@@ -77,7 +77,6 @@ Shapely==1.8.2
 sqlparse==0.4.4
 stack-data==0.2.0
 tensorboard-plugin-wit==1.8.1
-tensorflow-addons @ https://github.com/apple/tensorflow_macos/releases/download/v0.1alpha3/tensorflow_addons_macos-0.1a3-cp38-cp38-macosx_11_0_arm64.whl
 termcolor==1.1.0
 terminado==0.13.3
 tinycss2==1.1.1
