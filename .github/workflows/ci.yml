@@ -16,9 +16,14 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         echo "$MDM_WAS_KEY" > ~/.ssh/id_rsa
+        if [ -f ~/.ssh/id_rsa ]; then
+          echo "SSH private key file exists"
+        else
+          echo "SSH private key file does not exist"
+        fi
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan ec2-43-201-204-254.ap-northeast-2.compute.amazonaws.com >> ~/.ssh/known_hosts
-        ssh -i ~/.ssh/id_rsa ubuntu@ec2-43-201-204-254.ap-northeast-2.compute.amazonaws.com "echo SSH 접속 성공"
+        ssh-keyscan 43.201.204.254 >> ~/.ssh/known_hosts
+        ssh -i ~/.ssh/id_rsa ubuntu@43.201.204.254 "echo SSH 접속 성공"
 
 
     - name: 원격 명령 실행
