@@ -14,7 +14,7 @@ jobs:
       
     - name: 설정 SSH 키
       env:
-        MDM_WAS_KEY: ${{ secrets.SuperSecret }}
+        MDM_WAS_KEY: ${{ secrets.MDM_WAS_KEY }}
       run: |
         mkdir -p ~/.ssh
         echo MDM_WAS_KEY : "$MDM_WAS_KEY"
