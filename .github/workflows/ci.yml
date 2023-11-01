@@ -15,15 +15,10 @@ jobs:
     - name: 설정 SSH 키
       run: |
         mkdir -p ~/.ssh
-        echo "$MDM_WAS_KEY" > ~/.ssh/id_rsa
-        if [ -f ~/.ssh/id_rsa ]; then
-          cat ~/.ssh/id_rsa
-        else
-          echo "SSH private key file does not exist"
-        fi
-        chmod 600 ~/.ssh/id_rsa
+        cat "$MDM_WAS_KEY" > ~/.ssh/id_rsa.pem
+        chmod 600 ~/.ssh/id_rsa.pem
         ssh-keyscan 43.201.204.254 >> ~/.ssh/known_hosts
-        ssh -i ~/.ssh/id_rsa ubuntu@43.201.204.254 "echo SSH 접속 성공"
+        ssh -i ~/.ssh/id_rsa.pem ubuntu@43.201.204.254 "echo SSH 접속 성공"
 
 
     - name: 원격 명령 실행
