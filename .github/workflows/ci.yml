@@ -17,11 +17,10 @@ jobs:
         MDM_WAS_KEY: ${{ secrets.MDM_WAS_KEY }}
       run: |
         mkdir -p ~/.ssh
-        echo MDM_WAS_KEY : "$MDM_WAS_KEY"
         echo "$MDM_WAS_KEY" > ~/.ssh/id_rsa.pem
         chmod 600 ~/.ssh/id_rsa.pem
         ssh-keyscan 43.201.204.254 >> ~/.ssh/known_hosts
-        ssh -i ~/.ssh/id_rsa.pem ubuntu@43.201.204.254 "echo SSH 접속 성공"
+        ssh -i ~/.ssh/id_rsa.pem ubuntu@43.201.204.254 
 
 
     - name: 원격 명령 실행
