@@ -15,7 +15,8 @@ jobs:
     - name: 설정 SSH 키
       run: |
         mkdir -p ~/.ssh
-        cat "$MDM_WAS_KEY" > ~/.ssh/id_rsa.pem
+        echo "$MDM_WAS_KEY"
+        echo "$MDM_WAS_KEY" > ~/.ssh/id_rsa.pem
         chmod 600 ~/.ssh/id_rsa.pem
         ssh-keyscan 43.201.204.254 >> ~/.ssh/known_hosts
         ssh -i ~/.ssh/id_rsa.pem ubuntu@43.201.204.254 "echo SSH 접속 성공"
