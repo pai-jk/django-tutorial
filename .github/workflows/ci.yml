@@ -24,7 +24,8 @@ jobs:
     - name: 원격 명령 실행
       run: |
         ssh -i ~/.ssh/id_rsa.pem ubuntu@43.201.204.254 
-        # 원격 서버에 명령 실행 (예: 배포 스크립트 실행)
+        
+        pwd
         # Git 레포지토리 업데이트
         cd /home/ubuntu/temp/django_tutorial
         git pull
