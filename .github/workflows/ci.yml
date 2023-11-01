@@ -31,7 +31,7 @@ jobs:
           sudo docker ps
           
           # Git 레포지토리 업데이트
-          cd /home/ubuntu/temp/django_tutorial
+          cd /home/ubuntu/temp/django-tutorial
           git pull
   
           # Docker 이미지 빌드
