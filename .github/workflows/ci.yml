@@ -11,15 +11,15 @@ jobs:
     steps:
     - name: Checkout 코드
       uses: actions/checkout@v2
-      
-    - name: 설정 SSH 키
-      env:
-        MDM_WAS_KEY: ${{ secrets.MDM_WAS_KEY }}
-      run: |
-        mkdir -p ~/.ssh
-        echo "$MDM_WAS_KEY" > ~/.ssh/id_rsa.pem
-        chmod 600 ~/.ssh/id_rsa.pem
-        ssh-keyscan 43.201.204.254 >> ~/.ssh/known_hosts
+
+#    - name: 설정 SSH 키
+#      env:
+#        MDM_WAS_KEY: ${{ secrets.MDM_WAS_KEY }}
+#      run: |
+#        mkdir -p ~/.ssh
+#        echo "$MDM_WAS_KEY" > ~/.ssh/id_rsa.pem
+#        chmod 600 ~/.ssh/id_rsa.pem
+#        ssh-keyscan 43.201.204.254 >> ~/.ssh/known_hosts
 
     - name: SSH로 외부 서버에 접속하여 컨테이너 업데이트
       uses: appleboy/ssh-action@master
@@ -28,13 +28,24 @@ jobs:
         username: ubuntu
         key: ${{ secrets.MDM_WAS_KEY }}
         script: |
-          pwd
           sudo docker ps
+          
+          # Git 레포지토리 업데이트
+          cd /home/ubuntu/temp/django_tutorial
+          git pull
+  
+          # Docker 이미지 빌드
+          docker build -t ci_test:latest .
+  
+          # 현재 실행 중인 Docker 컨테이너 중지
+          docker stop ci_test || true
+          docker rm ci_test || true
+  
+          # 새로운 이미지로 Docker 컨테이너 시작
+          docker run -d -p 90:90 --name ci_test ci_test:latest
+  
+          sudo docker image prune -f
 
-#    - name: 원격 명령 실행
-#      run: |
-#        ssh -i ~/.ssh/id_rsa.pem ubuntu@43.201.204.254
-#
-#        pwd
-#        sudo docker ps
+        
+
 
