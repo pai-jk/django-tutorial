@@ -16,7 +16,7 @@ jobs:
       run: |
         mkdir -p ~/.ssh
         echo "$MDM_WAS_KEY" > ~/.ssh/id_rsa
-        chmod 400 ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
         ssh-keyscan ec2-43-201-204-254.ap-northeast-2.compute.amazonaws.com >> ~/.ssh/known_hosts
         ssh -i ~/.ssh/id_rsa ubuntu@ec2-43-201-204-254.ap-northeast-2.compute.amazonaws.com "echo SSH 접속 성공"
 
