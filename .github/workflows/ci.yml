@@ -11,16 +11,30 @@ jobs:
     steps:
     - name: Checkout 코드
       uses: actions/checkout@v2
+      
+    - name: 설정 SSH 키
+      run: |
+        mkdir -p ~/.ssh
+        echo "$MDM_WAS_KEY" > ~/.ssh/id_rsa
+        chmod 400 ~/.ssh/id_rsa
+        ssh-keyscan ec2-43-201-204-254.ap-northeast-2.compute.amazonaws.com >> ~/.ssh/known_hosts
+        ssh -i ~/.ssh/id_rsa ubuntu@ec2-43-201-204-254.ap-northeast-2.compute.amazonaws.com "echo SSH 접속 성공"
 
-    - name: SSH로 외부 서버에 접속하여 컨테이너 업데이트
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          docker stop dj-tt || true
-          docker rm dj-tt || true
-          docker build -t dj-tt .
-          docker run --privileged -p 8001:8001  --name dj-tt dj-tt
+
+    - name: 원격 명령 실행
+      run: |
+        # 원격 서버에 명령 실행 (예: 배포 스크립트 실행)
+        # Git 레포지토리 업데이트
+        cd /home/ubuntu/temp/django_tutorial
+        git pull
+    
+        # Docker 이미지 빌드
+        docker build -t ci_test:latest .
+    
+        # 현재 실행 중인 Docker 컨테이너 중지
+        docker stop ci_test || true
+        docker rm ci_test || true
+    
+        # 새로운 이미지로 Docker 컨테이너 시작
+        docker run -d -p 90:90 --name ci_test ci_test:latest
 
